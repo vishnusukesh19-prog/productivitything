@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ProdHub</title>
+    <script>
+      window.location.href = "/prodhub/" + window.location.hash;  // Adjust if needed
+    </script>
+  </head>
+  <body></body>
+</html>
