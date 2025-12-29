@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.build/
+.vscode/
+.env
+.env.local
+.DS_Store
+public/firebase-messaging-sw.js
+server/node_modules/
+server/.env
+server/serviceAccountKey.json
