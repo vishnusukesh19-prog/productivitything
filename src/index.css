@@ -1,267 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  html { 
-    @apply scroll-smooth;  
-  }
-  body {
-    background: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.12), transparent 25%),
-                radial-gradient(circle at 90% 10%, rgba(34, 211, 238, 0.12), transparent 22%),
-                radial-gradient(circle at 70% 80%, rgba(251, 191, 36, 0.12), transparent 25%),
-                var(--poker-bg);
-    color: var(--poker-text);
-    transition: background 0.5s ease, color 0.4s ease;
-    overflow-x: hidden;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    cursor: none;
+  :root {
+    --space-dark: #111827;
+    --poker-text: #1f2937;
+    --poker-muted: #6b7280;
+    --poker-accent: #6366f1;
+    --poker-gold: #f59e0b;
   }
   
-  :root {
-    --poker-bg: #070b18;
-    --poker-surface: #0d1324;
-    --poker-surface-2: #131b2f;
-    --poker-text: #e6ebf7;
-    --poker-muted: #a6afc8;
-    --poker-accent: #7c3aed;
-    --poker-accent-2: #22d3ee;
+  .dark {
+    --poker-text: #f9fafb;
+    --poker-muted: #9ca3af;
+    --poker-accent: #818cf8;
     --poker-gold: #fbbf24;
-    --poker-card-bg: rgba(255,255,255,0.03);
-    --poker-card-border: rgba(255,255,255,0.08);
-    --poker-chip-red: #7c3aed;
-    --poker-chip-blue: #22d3ee;
-    --poker-chip-yellow: #fbbf24;
-    --poker-chip-black: #0f172a;
-    --poker-shadow: rgba(5, 8, 20, 0.45);
-    --poker-glow: rgba(124, 58, 237, 0.35);
+  }
+  
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-white text-gray-900 dark:text-gray-50 transition-colors duration-300;
+    background-color: white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+  
+  .dark body {
+    background-color: var(--space-dark);
+  }
+  
+  body * {
+    cursor: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
-  .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    border: 2px solid rgba(248, 250, 252, 0.8);
-    box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.25);
-    transform: translate3d(-9999px, -9999px, 0);
-    pointer-events: none;
-    z-index: 60;
-    backdrop-filter: blur(2px);
-    mix-blend-mode: screen;
-    transition: transform 0.08s linear;
+  /* Premium Card Styles */
+  .card {
+    @apply bg-white rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-sm;
+    background-color: white;
+  }
+  
+  .dark .card {
+    background-color: var(--space-dark);
+  }
+  
+  .card-gradient {
+    @apply bg-gradient-to-br from-primary-50 via-purple-50 to-accent-50 dark:via-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm;
+    background-image: linear-gradient(to bottom right, rgb(238, 242, 255), rgb(250, 245, 255), rgb(236, 253, 245));
+  }
+  
+  .dark .card-gradient {
+    background-image: linear-gradient(to bottom right, var(--space-dark), rgb(17, 24, 39), var(--space-dark));
+  }
+  
+  .card-glow {
+    @apply bg-white rounded-xl border border-primary-200 dark:border-primary-800 shadow-lg hover:shadow-2xl transition-all duration-300;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+  }
+  
+  .dark .card-glow {
+    background-color: #111827;
   }
 
-  button, a, input, textarea {
-    cursor: none;
+  .card-glow:hover {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.3), 0 0 60px rgba(167, 139, 250, 0.1);
   }
 
-  /* Backdrop */
-  .poker-table {
-    background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(34,211,238,0.08)),
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.03), transparent 35%),
-                radial-gradient(circle at 80% 60%, rgba(255,255,255,0.04), transparent 40%),
-                var(--poker-bg);
-    min-height: 100vh;
-    position: relative;
-  }
-
-  /* Card Style */
-  .poker-card {
-    position: relative;
-    @apply rounded-2xl shadow-lg transition-all duration-300;
-    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-    border: 1px solid var(--poker-card-border);
-    color: var(--poker-text);
-    transform-style: preserve-3d;
+  .card-premium {
+    @apply bg-white rounded-2xl border border-gray-200 dark:border-gray-800 shadow-xl;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     backdrop-filter: blur(10px);
   }
   
-  .poker-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 45%),
-                linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 65%);
-    border-radius: inherit; 
-    pointer-events: none;
-  }
-  
-  .poker-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 45px var(--poker-shadow), 0 0 28px var(--poker-glow);
-    border-color: rgba(124,58,237,0.3);
-  }
-  
-  .poker-card.green { border-left: 4px solid #22c55e; }
-  .poker-card.blue { border-left: 4px solid #38bdf8; }
-  .poker-card.purple { border-left: 4px solid #a855f7; }
-  .poker-card.red { border-left: 4px solid var(--poker-accent); }
-  
-  /* Chip tokens */
-  .poker-chip {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    box-shadow: inset 0 2px 6px rgba(255,255,255,0.18),
-                0 10px 30px rgba(0,0,0,0.35);
-    border: 1px solid rgba(255,255,255,0.12);
-    animation: chip-float 4.5s ease-in-out infinite;
-  }
-  
-  .poker-chip.red { background: radial-gradient(circle at 30% 30%, #9f67ff, var(--poker-chip-red)); color: white; }
-  .poker-chip.blue { background: radial-gradient(circle at 30% 30%, #5de5ff, var(--poker-chip-blue)); color: #04101c; }
-  .poker-chip.yellow { background: radial-gradient(circle at 30% 30%, #ffe9a3, var(--poker-chip-yellow)); color: #1f1300; }
-  .poker-chip.black { background: radial-gradient(circle at 30% 30%, #1e293b, var(--poker-chip-black)); color: #e6ebf7; border: 1px solid var(--poker-border); }
-  
-  @keyframes chip-float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-6px) rotate(4deg); }
-  }
-  
-  /* Highlight cards */
-  .productivity-pot {
-    background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(34,211,238,0.15));
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 18px;
-    padding: 20px;
-    position: relative;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.35), 0 0 30px rgba(124,58,237,0.25);
-  }
-  
-  .productivity-pot::before {
-    content: '✨';
-    position: absolute;
-    top: -18px;
-    right: 18px;
-    font-size: 1.8rem;
-    filter: drop-shadow(0 3px 8px rgba(0,0,0,0.35));
-  }
-  
-  /* Progress Bar */
-  .poker-progress {
-    height: 12px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .poker-progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--poker-accent) 0%, var(--poker-accent-2) 100%);
-    border-radius: 10px;
-    transition: width 0.5s ease, transform 0.5s ease;
-    box-shadow: 0 0 14px var(--poker-glow);
-  }
-  
-  /* Button Styles */
-  .poker-button {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300;
-    background: linear-gradient(135deg, var(--poker-accent), var(--poker-accent-2));
-    color: #0b1021;
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 10px 30px rgba(124,58,237,0.35);
-    letter-spacing: 0.3px;
-  }
-  
-  .poker-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 36px rgba(34,211,238,0.35);
-  }
-  
-  .poker-button.secondary {
-    background: rgba(255,255,255,0.06);
-    color: var(--poker-text);
-    border-color: rgba(255,255,255,0.12);
-    box-shadow: none;
-  }
-  
-  /* Input Styles */
-  .poker-input {
-    @apply p-3 rounded-xl transition-all duration-300;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--poker-text);
-  }
-  
-  .poker-input:focus {
-    outline: none;
-    border-color: rgba(124,58,237,0.6);
-    box-shadow: 0 0 20px var(--poker-glow);
-    background: rgba(255, 255, 255, 0.08);
-  }
-  
-  .poker-input::placeholder {
-    color: rgba(230, 235, 247, 0.6);
-  }
-  
-  /* Star Rating */
-  .star-rating {
-    display: flex;
-    gap: 2px;
-  }
-  
-  .star {
-    color: var(--poker-gold);
-    font-size: 1.2rem;
-    filter: drop-shadow(0 0 3px rgba(251,191,36,0.5));
-  }
-  
-  .star.empty {
-    color: var(--poker-muted);
-    filter: none;
-  }
-  
-  /* Mascot Character */
-  .chip-mascot {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #9f67ff, var(--poker-chip-red));
-    position: relative;
-    animation: mascot-bounce 2.6s ease-in-out infinite;
-    box-shadow: inset 0 3px 6px rgba(255,255,255,0.25),
-                0 12px 24px rgba(0,0,0,0.35);
-  }
-  
-  .chip-mascot::before {
-    content: '😊';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem;
-  }
-  
-  @keyframes mascot-bounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-10px) scale(1.06); }
-  }
-  
-  /* Grid Pattern Background */
-  .felt-pattern {
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 24px 24px;
+  .dark .card-premium {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.1) 0%, rgba(17, 24, 39, 0.05) 100%), #111827;
   }
 
-  @keyframes drift {
-    0% { transform: translate3d(0,0,0) scale(1); }
-    50% { transform: translate3d(12px, -18px, 0) scale(1.05); }
-    100% { transform: translate3d(0,0,0) scale(1); }
+  /* Premium Button Styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-500 via-indigo-600 to-purple-600 hover:from-primary-600 hover:via-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95;
+    font-family: 'Poppins', sans-serif;
   }
+  
+  .btn-secondary {
+    @apply bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105 active:scale-95;
+  }
+  
+  .btn-accent {
+    @apply bg-gradient-to-r from-accent-400 to-emerald-500 hover:from-accent-500 hover:to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-neon {
+    @apply bg-gradient-to-r from-neon-purple via-primary-500 to-neon-pink text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-110 active:scale-95;
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-neon:hover {
+    box-shadow: 0 0 30px rgba(167, 139, 250, 0.8), 0 0 60px rgba(236, 72, 153, 0.4);
+  }
+
+  /* Premium Input Styles */
+  .input {
+    @apply w-full px-4 py-3 bg-white border-2 border-gray-300 dark:border-gray-700 rounded-xl text-gray-900 dark:text-gray-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm;
+    background-color: white;
+  }
+  
+  .dark .input {
+    background-color: #111827;
+  }
+
+  .input:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .input-premium {
+    @apply input;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+  }
+  
+  .badge-primary {
+    @apply badge bg-gradient-to-r from-primary-100 to-indigo-100 dark:from-primary-900 dark:to-indigo-900 text-primary-800 dark:text-primary-200;
+  }
+  
+  .badge-accent {
+    @apply badge bg-gradient-to-r from-accent-100 to-emerald-100 dark:from-accent-900 dark:to-emerald-900 text-accent-800 dark:text-accent-200;
+  }
+
+  .badge-neon {
+    @apply badge bg-gradient-to-r from-neon-purple to-neon-pink text-white shadow-lg;
+    box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 via-indigo-600 to-purple-600 bg-clip-text text-transparent;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .gradient-text-accent {
+    @apply bg-gradient-to-r from-accent-400 to-emerald-500 bg-clip-text text-transparent;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Section Header */
+  .section-header {
+    @apply text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-2;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .section-subtitle {
+    @apply text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6;
+  }
+
+  /* Glow Effects */
+  .glow-primary {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.3), 0 0 40px rgba(52, 211, 153, 0.1);
+  }
+
+  .glow-neon {
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.5), 0 0 40px rgba(236, 72, 153, 0.3);
+  }
+
+  /* Nav Link Active State */
+  .nav-link-active {
+    @apply relative text-primary-500 dark:text-primary-400 font-semibold;
+  }
+
+  .nav-link-active::after {
+    content: '';
+    @apply absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 to-purple-600 rounded-full;
+  }
+
+  /* Navbar dark mode */
+  .navbar-bg {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .dark .navbar-bg {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.95) 0%, rgba(31, 41, 55, 0.95) 100%);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Poker-themed components for Calendar/Notes/Habits */
+  .poker-card {
+    @apply bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-lg p-4 md:p-6;
+    background-color: white;
+  }
+  
+  .dark .poker-card {
+    background-color: #111827;
+    border-color: rgba(75, 85, 99, 0.5);
+  }
+
+  .poker-card.green {
+    @apply border-accent-500/30 dark:border-accent-500/30;
+  }
+
+  .poker-button {
+    @apply bg-gradient-to-r from-primary-500 via-indigo-600 to-purple-600 hover:from-primary-600 hover:via-indigo-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95;
+  }
+
+  .poker-button.secondary {
+    @apply bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-50 border border-gray-300 dark:border-gray-700;
+  }
+
+  .poker-input {
+    @apply w-full px-4 py-3 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-700 rounded-xl text-gray-900 dark:text-gray-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 shadow-sm;
+    background-color: white;
+  }
+  
+  .dark .poker-input {
+    background-color: #111827;
+    border-color: rgba(75, 85, 99, 0.5);
+  }
+
+  .poker-input:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .poker-input:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.6s ease-out;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(
+      to right,
+      rgba(99, 102, 241, 0.1) 0%,
+      rgba(167, 139, 250, 0.3) 50%,
+      rgba(99, 102, 241, 0.1) 100%
+    );
+    background-size: 1000px 100%;
+  }
+}
+
+/* Particle background effect */
+.particle-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.particle-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(52, 211, 153, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-600;
 }

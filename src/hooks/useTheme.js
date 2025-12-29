@@ -1,22 +1,26 @@
 import { useState, useEffect } from 'react';
 
 export function useTheme() {
-  const [theme, setTheme] = useState(localStorage.getItem('data-theme') || 'dark');
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('prodhub-theme');
+    if (saved) return saved;
+    // Default to dark mode for premium feel
+    return 'dark';
+  });
 
   useEffect(() => {
-    localStorage.setItem('data-theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
-    // Force style recalc
-    document.documentElement.classList.add('recalc');
-    setTimeout(() => document.documentElement.classList.remove('recalc'), 1);
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('prodhub-theme', theme);
   }, [theme]);
 
-  const toggleTheme = (newTheme) => setTheme(newTheme);
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
-  const themes = [
-    { id: 'dark', name: 'Dark' },
-    { id: 'light', name: 'Light' },
-  ];
-
-  return { theme, toggleTheme, themes };
+  return { theme, toggleTheme };
 }

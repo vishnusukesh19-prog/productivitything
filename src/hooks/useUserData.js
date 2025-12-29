@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
-import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -15,15 +24,26 @@ export function useUserData(collectionName) {
       return;
     }
 
-    const q = query(collection(db, collectionName), where('uid', '==', user.uid));
-    const unsub = onSnapshot(q, (snapshot) => {
-      const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      setData(items);
-      setLoading(false);
-    }, (error) => {
-      console.error('Data sync error:', error);
-      setLoading(false);
-    });
+    let q;
+    if (collectionName === 'groups') {
+      // Study groups are shared; subscribe to all groups
+      q = collection(db, collectionName);
+    } else {
+      q = query(collection(db, collectionName), where('uid', '==', user.uid));
+    }
+
+    const unsub = onSnapshot(
+      q,
+      (snapshot) => {
+        const items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+        setData(items);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Data sync error:', error);
+        setLoading(false);
+      }
+    );
 
     return unsub;
   }, [user, collectionName]);
@@ -31,10 +51,13 @@ export function useUserData(collectionName) {
   const addItem = async (itemData) => {
     if (!user) {
       throw new Error('Not authenticated');
-      return;
     }
     try {
-      const docRef = await addDoc(collection(db, collectionName), { ...itemData, uid: user.uid, createdAt: new Date() });
+      const payload =
+        collectionName === 'groups'
+          ? { ...itemData, createdAt: new Date(), ownerUid: user.uid }
+          : { ...itemData, uid: user.uid, createdAt: new Date() };
+      const docRef = await addDoc(collection(db, collectionName), payload);
       console.log('Item added with ID:', docRef.id);
       return docRef.id;
     } catch (error) {

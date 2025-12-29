@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useProgress } from "../hooks/useProgress";
 import { useUserData } from "../hooks/useUserData";
 import { motion } from "framer-motion";
-import PokerBackground from "../components/PokerBackground";
 import DailyPot from "../components/DailyPot";
 
 export default function Dashboard() {
@@ -36,7 +35,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen relative">
-      <PokerBackground />
       <div className="relative z-10 max-w-7xl mx-auto p-4 md:p-6">
         {/* Header */}
         <motion.div
